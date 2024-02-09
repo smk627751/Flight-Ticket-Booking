@@ -1,11 +1,8 @@
 package com.smk627751.booking;
 
-import com.smk627751.booking.BookingView;
 import com.smk627751.dto.Flight;
 import com.smk627751.dto.Passenger;
 import com.smk627751.dto.Ticket;
-import com.smk627751.flightinfo.view.AddFlightView;
-import com.smk627751.flightinfo.viewModel.AddFlightViewModel;
 import com.smk627751.repository.Repository;
 
 import java.util.List;
@@ -35,10 +32,12 @@ public class BookingViewModel {
     {
         return listFlights().stream().filter(flight -> (flight.getRoutes().contains(from) && flight.getRoutes().contains(to))).toList();
     }
-    public int booking(String from, String to, Flight flight, List<Passenger> passengers, int total)
+    public int booking(String from, String to, Flight flight, List<Passenger> passengers, int passengerCount, int total)
     {
+        flight.setSeat(flight.getSeat() - passengerCount);
         Ticket ticket = new Ticket(flight,from,to,passengers,total);
         repo.getTickets().add(ticket);
+        repo.writeFlights();
         repo.writeTickets();
         return ticket.getPNR();
     }
@@ -60,10 +59,13 @@ public class BookingViewModel {
     public int cancelTicket(int PNRNumber)
     {
         Ticket ticket = findTicket(PNRNumber);
+        Flight flight = findFlight(ticket.getFlight().getFlightNumber());
+        flight.setSeat(flight.getSeat() + ticket.getPassengers().size());
         for(Passenger passenger : ticket.getPassengers())
         {
             passenger.setStatus("CANCELLED");
         }
+        repo.writeFlights();
         repo.writeTickets();
         return ticket.getTotal();
     }
@@ -73,8 +75,19 @@ public class BookingViewModel {
         Ticket ticket = findTicket(PNRNumber);
         for(Passenger passenger : ticket.getPassengers())
         {
+            if(status[choice - 1].equals("CNF") && !passenger.getStatus().equals("CNF"))
+            {
+                Flight flight = findFlight(ticket.getFlight().getFlightNumber());
+                flight.setSeat(flight.getSeat() - ticket.getPassengers().size());
+            }
+            else if(status[choice - 1].equals("CANCELLED") && !passenger.getStatus().equals("CANCELLED"))
+            {
+                Flight flight = findFlight(ticket.getFlight().getFlightNumber());
+                flight.setSeat(flight.getSeat() + ticket.getPassengers().size());
+            }
             passenger.setStatus(status[choice - 1]);
         }
+        repo.writeFlights();
         repo.writeTickets();
         return status[choice - 1];
     }

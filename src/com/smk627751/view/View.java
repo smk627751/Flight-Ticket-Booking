@@ -20,8 +20,8 @@ public class View {
         int choice;
         do{
             System.out.println("Flight Ticket Booking");
-            System.out.println("1. Booking\n2. Get PNR status\n3. Booked tickets\n4. Cancel Tickets\n5. Search " +
-                    "passenger\n6. Change ticket status of a passenger\n7. List flight routes\n8. Add flight " +
+            System.out.println("1. Booking\n2. Get PNR status\n3. Search Flight from and to\n4. Booked tickets\n5. Cancel Tickets\n6. Search " +
+                    "passenger\n7. Change ticket status of a passenger\n8. List flight routes\n9. Add flight " +
                     "routes\n0. Exit");
             System.out.println("Enter your option:");
             choice = sc.nextInt();
@@ -33,19 +33,22 @@ public class View {
                 case 2 ->{
                     bookingView.getPNRStatus();
                 }
-                case 3 -> {
-                    bookingView.bookedTickets();
+                case 3 ->{
+                    bookingView.searchFlight();
                 }
                 case 4 -> {
-                    bookingView.cancelTicket();
+                    bookingView.bookedTickets();
                 }
                 case 5 -> {
-                    bookingView.searchPassenger();
+                    bookingView.cancelTicket();
                 }
                 case 6 -> {
-                    bookingView.changeTicketStatus();
+                    bookingView.searchPassenger();
                 }
                 case 7 -> {
+                    bookingView.changeTicketStatus();
+                }
+                case 8 -> {
                     System.out.println("Flight Details");
                     System.out.println();
                     int index = 1;
@@ -55,7 +58,7 @@ public class View {
                         System.out.println();
                     }
                 }
-                case 8 -> {
+                case 9 -> {
                     addFlightView.addFlight();
                 }
                 case 0 -> {

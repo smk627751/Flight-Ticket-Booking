@@ -32,4 +32,8 @@ public class Passenger implements Serializable {
     public int getId() {
         return id;
     }
+
+    public String getStatus() {
+        return status;
+    }
 }

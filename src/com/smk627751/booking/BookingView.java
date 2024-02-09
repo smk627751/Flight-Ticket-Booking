@@ -18,6 +18,7 @@ public class BookingView {
     }
     public void bookTicket()
     {
+        sc.nextLine();
         System.out.println("From Station: ");
         String from = sc.nextLine();
         System.out.println("To Station: ");
@@ -32,8 +33,19 @@ public class BookingView {
         }
         System.out.println("Enter flight number: ");
         int flightNumber = sc.nextInt();
+        Flight flight = bookingViewModel.findFlight(flightNumber);
+        if(flight.getSeat() == 0)
+        {
+            System.out.println("No seats available");
+            return;
+        }
         System.out.println("Enter number of passenger: ");
         int passengerCount = sc.nextInt();
+        if(flight.getSeat() < passengerCount)
+        {
+            System.out.println("Not enough seats");
+            return;
+        }
         List<Passenger> passengers = new ArrayList<>();
         for(int i = 1; i <= passengerCount; i++)
         {
@@ -50,7 +62,6 @@ public class BookingView {
             int id = sc.nextInt();
             passengers.add(new Passenger(name,age,gender,id));
         }
-        Flight flight = bookingViewModel.findFlight(flightNumber);
         int total = flight.getFare() * passengerCount;
         System.out.println("Total Fare: "+total);
         System.out.println("Pay: ");
@@ -59,7 +70,7 @@ public class BookingView {
         switch (payment)
         {
             case 1 ->{
-                int PNRNumber = bookingViewModel.booking(from,to,flight,passengers,total);
+                int PNRNumber = bookingViewModel.booking(from,to,flight,passengers,passengerCount,total);
                 System.out.println("Ticket(s) booked successfully");
                 System.out.println("Your PNRNumber: "+PNRNumber);
             }
@@ -122,5 +133,16 @@ public class BookingView {
         Passenger passenger = bookingViewModel.findPassenger(id);
         System.out.println("Passenger details: ");
         System.out.println(passenger);
+    }
+
+    public void searchFlight() {
+        System.out.println("From Station: ");
+        String from = sc.nextLine();
+        System.out.println("To Station: ");
+        String to = sc.nextLine();
+        for(Flight flight : bookingViewModel.searchFlight(from,to))
+        {
+            System.out.println(flight);
+        }
     }
 }

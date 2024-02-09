@@ -36,7 +36,7 @@ public class Flight implements Serializable {
     public String toString()
     {
         return "Flight no : "+flightNumber+" || name : "+flightName+" || Departure Time:"+ departureTime +" || Arrival Time:"+arrivalTime+"\n" +
-                "|| Travel Time :10 || Fare : "+fare+" || seats : "+seats;
+                "|| Travel Time :10 || Fare : "+fare+" || seats : "+seats+"||\nRoute: "+routes;
     }
 
     public int getFare() {
@@ -53,5 +53,13 @@ public class Flight implements Serializable {
 
     public int getDepartureTime() {
         return departureTime;
+    }
+
+    public int getSeat() {
+        return seats;
+    }
+    public void setSeat(int seat)
+    {
+        this.seats = seat;
     }
 }
