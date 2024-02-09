@@ -1,6 +1,6 @@
 package com.smk627751.view;
 
-import com.smk627751.booking.view.BookingView;
+import com.smk627751.booking.BookingView;
 import com.smk627751.dto.Flight;
 import com.smk627751.flightinfo.view.AddFlightView;
 

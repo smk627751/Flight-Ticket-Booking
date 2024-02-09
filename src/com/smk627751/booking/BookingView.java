@@ -1,6 +1,6 @@
-package com.smk627751.booking.view;
+package com.smk627751.booking;
 
-import com.smk627751.booking.viewModel.BookingViewModel;
+import com.smk627751.booking.BookingViewModel;
 import com.smk627751.dto.Flight;
 import com.smk627751.dto.Passenger;
 import com.smk627751.dto.Ticket;
